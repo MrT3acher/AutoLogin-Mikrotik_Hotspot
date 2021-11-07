@@ -4,6 +4,14 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import os, platform
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('-U', '--url', help='url of hotspot login web server. ex: http://test.local.com', required=True)
+parser.add_argument('-u', '--username', required=True)
+parser.add_argument('-p', '--password', required=True)
+args = parser.parse_args()
 
 print("Auto Login - Mikrotik Hotspot Authentication")
 
@@ -13,7 +21,7 @@ class AutoLogin:
         self.username = username
         self.password = password
         self.ip = ip
-        self.driver = webdriver.Chrome() # select browser
+        self.driver = webdriver.Firefox() # select browser
 
     def CloseBrowser(self):
         self.driver.quit()
@@ -48,7 +56,7 @@ class AutoLogin:
         return pingstatus
         
 # Setting ("username", "password", "hotspot_ip-address")
-Auto = AutoLogin("username", "password", "192.168.0.1")
+Auto = AutoLogin(args.username, args.password, args.url)
 print("[Status] : Running scripts")
 if Auto.LoginCheck():
     print("[Status] : Already login")
